@@ -1,0 +1,87 @@
+﻿@model IEnumerable<ProyectoFinal.Models.CarritoDeCompra>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@{
+    double total = 0;
+}
+
+<h1>Compras</h1>
+
+<p>
+    <a asp-action="Create">Crear Nueva Compra</a>
+</p>
+
+<form asp-controller="CarritoDeCompras" asp-action="Index">
+    <p>
+        Buscar: <input type="text" name="buscar" class="form-text" />
+        <input type="submit" value="Buscar" class="btn btn-sm btn-dark"/>
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MetodoDePago)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-filtro="@ViewData["FiltroFecha"]">
+                    @Html.DisplayNameFor(model => model.FechaCreacion)
+                </a>
+                
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.NombreCompleto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producto.NombreProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MetodoDePago)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaCreacion)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+            </td>
+        </tr>
+            total = total + item.Total;<!--suma los totales de las compras-->
+}
+
+       
+      
+        
+    </tbody>
+</table>
+<div class="miDivIzquierdo">
+  Total =  @total
+</div>
